@@ -1,0 +1,91 @@
+#contain {
+    background-color: var(--background);
+    color: var(--leftOver);
+}
+
+/* timer */
+#contain h1 {
+    color: var(--correct)
+}
+
+.ocean {
+    --background: #395E66;
+    --leftOver: white;
+    --correct: #FFA69E;
+}
+.light {
+    --background: white;
+    --leftOver: black;
+    --incorrect: red;
+    --correct: gray;
+}
+
+.dark {
+    --background: black;
+    --leftOver: white;
+    --incorrect: darkred;
+    --correct: blue;
+}
+
+.bubbly {
+    --background: pink;
+    --leftOver: green;
+    --incorrect: purple;
+    --correct: orange;
+}
+
+body {
+    box-sizing: border-box;
+    padding:0;
+    margin: 0;
+}
+.navbar {
+    position: absolute;
+    width: 100%;
+    background-color: var(--background);
+}
+.nav-link {
+    color: var(--leftOver)
+}
+
+#center { 
+    height: 100vh;
+    width: 60%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    color: var(--correct)
+}
+.hidden {
+    opacity: 0;
+}
+.button:hover {
+    color: var(--incorrect);
+}
+
+.buttons {
+    text-align: right;
+}
+.text {
+    font-size: 1.5em;
+}
+
+.incorrect {
+    color: var(--incorrect);
+}
+.correct {
+    color: var(--correct);
+}
+.leftOver {
+    color: var(--leftOver);
+}
