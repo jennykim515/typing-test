@@ -1,16 +1,31 @@
-import {useEffect, useState, useContext} from 'react';
+import {useEffect, useState} from 'react';
 import Text from './Text'
 import '../style/Test.css'
-import React, { useCallback } from 'react'
-
-
+import ThemeOptions from './ThemeOptions';
+import TimerOptions from './TimerOptions';
+import Input from './Input';
+import Modal from './Modal';
 function Home() {
+    // const [init, setInit] = useState({
+    //     timeLeft: 60,
+    //     originalTime: 60,
+    //     go: 0,
+    //     index: -1,
+    //     userInput: '',
+    //     showModal: false
+    // })
+
     const [count, setCount] = useState(60);
+    const [originalTime, setOriginalTime] = useState(60);
     const [theme, setTheme] = useState("light");
     const [go, setGo] = useState(0);
-    const [letter, setLetter] = useState("");
     const [index, setIndex] = useState(-1);
-    const [word, setWord] = useState('')
+    const [word, setWord] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [stats, setStats] = useState({
+        wpm: 0,
+        incorrect: 0
+    })
 
     const handleCount = (newCount) => {
         setCount(newCount)
@@ -20,28 +35,11 @@ function Home() {
         setTheme(newTheme);
     }
 
-    const timerOptions = () => {
-        const options = [5, 15, 30, 45, 60, 120];
-        let buttons = options.map(opt => {
-            return <button className="button" onClick={() => {handleCount(opt)}} key={opt}>{opt}</button>
+    const handleStats = (stats) => {
+        setStats({
+            wpm: stats.wpm,
+            incorrect: stats.incorrect
         })
-        return (
-            <div className="buttons">
-                set time: {buttons}
-            </div>
-        )
-    }
-
-    const themeOptions = () => {
-        const options = ["ocean", "bubbly", "dark", "light"];
-        let buttons = options.map(opt => {
-            return <button className="button" onClick={() => {handleTheme(opt)}} key={opt}>{opt}</button>
-        })
-        return (
-            <div className="buttons">
-                set theme: {buttons}
-            </div>
-        )
     }
     
     const startTimer = () => {
@@ -58,29 +56,48 @@ function Home() {
     const handleTyping = (e) => {
         let word = e.target.value;
         setWord(word);
-        let letter = word.slice(-1);
         let index = word.length - 1;
         setIndex(() => index);
-        setLetter(() => letter);
     }
-    
+
+    const stopTimer = () => {
+        setShowModal(true);
+        setGo(0);
+        setIndex(-1);
+        setWord('');
+        setCount(60);
+    }
+
     useEffect(() => {
-        console.log({theme})
-    }, [theme])
+        if(count === 0) {
+            console.log("Here")
+            stopTimer();
+        }
+    })
 
     return (
         <div id="contain" className={theme}>
+            {showModal && 
+                    <Modal 
+                        setShowModal={setShowModal} 
+                        stats={stats}
+                    />
+            }
             <div id='center'>
-                <>{timerOptions()}</>
-                <>{themeOptions()}</>
+                <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} />
+                <ThemeOptions updateTheme={handleTheme}/>
                 <h1>{count}</h1>
-                <Text   
-                    userLetter={letter} 
-                    index={index}
-                    timeLeft={count}
-                    word={word}
-                />
-                <input key="themeset" autoFocus="true" className="hidden" onKeyPress={startTimer} onChange={handleTyping}></input>
+                <div className="txt">
+                    <Text   
+                        index={index}
+                        timeLeft={count}
+                        originalTime={originalTime}
+                        word={word}
+                        setStats={handleStats}
+                    />
+                    <Input inputValue={word} startTimer={startTimer} handleTyping={handleTyping} />
+                </div>
+                
             </div>
         </div>
     )

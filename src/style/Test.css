@@ -66,6 +66,7 @@ body {
     outline: none;
     color: var(--correct)
 }
+
 .hidden {
     opacity: 0;
 }
@@ -73,13 +74,22 @@ body {
     color: var(--incorrect);
 }
 
+input {
+    caret-color: DeepPink;
+    position: absolute;
+    width: 100%;
+    font-size: 1.5em;
+    top: 0;
+}
 .buttons {
     text-align: right;
 }
 .text {
     font-size: 1.5em;
 }
-
+.txt {
+    position: relative;
+}
 .incorrect {
     color: var(--incorrect);
 }
