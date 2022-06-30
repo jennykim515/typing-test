@@ -1,33 +1,88 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react';
+import $ from "jquery";
 function Text(props) {
-    const text = (`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.    `.split(""));
+    // const text = (`Lorem Ipsum is simply dummy t`.split(""));
+
+    const [text, setText] = useState(''.split(""))
+    const [totalCharsTyped, setTotal] = useState(0);
+    const [incorrect, setIncorrect] = useState(0);
     let index = props.index;
     let timeLeft = props.timeLeft;
     
 
     function handleStats(wpm, incorrect) {
-        console.log("setting stats")
-        console.log(wpm)
-        console.log(incorrect)
         props.setStats({
             wpm: wpm,
             incorrect: incorrect
         })
     }
 
-    useEffect(() => {
-        // let timeLeft = props.timeLeft;
-        if(timeLeft === 0) {
-            let countIncorrect = 0;
+    function checkIncorrect() {
             text.map((s, i) => {
                 if(i <= index) {
-                    if(props.word[i] !== s) countIncorrect++;
+                    if(props.word[i] !== s) {
+                        setIncorrect(prev => prev + 1);
+                    }
                 }
             })
-            // # words = keys typed / 5
-            // words / minutes = wpm
-            let wpm = (props.word.length / 5) / (props.originalTime / 60);
-            handleStats(wpm, countIncorrect)
+    }
+    function getNewText() {
+        $.ajax({
+            type: "GET",
+            url: "https://icanhazdadjoke.com/",
+            headers: { Accept: "application/json" }
+          }).then((data) => {
+            setText(data.joke.split(""));
+        });
+       
+
+    }
+
+    function reset() {
+        index = 0;
+        setTotal(0);
+        setIncorrect(0);
+        getNewText();
+    }
+    useEffect(() => {
+        getNewText();
+    }, []);
+
+    useEffect(() => {
+        if(index == text.length - 1) {
+            console.log("******** current index", index)
+            setTotal(prev => {
+                console.log("previously", prev)
+                console.log("updating to ", prev+ index)
+                return prev + index;
+            });
+            checkIncorrect()
+            index = 0;
+            getNewText();
+            props.setWord("");
+        }
+    }, [index])
+
+    useEffect(() => {
+        console.log("Total chars updated to", totalCharsTyped)
+    }, [totalCharsTyped])
+    useEffect(() => {
+        if(timeLeft === 1) {
+            console.log("~~~~~~~~~~~Setting total")
+            console.log("Current index", index)
+            setTotal(prev => {
+                console.log("PREVIOUSLY", prev)
+                console.log("to ", prev + index)
+                return prev + index;
+            });
+            checkIncorrect()
+        }
+        else if(timeLeft === 0) {
+            console.log("total words typed", totalCharsTyped/5)
+            console.log("original time", props.originalTime/60)
+            let wpm = Math.ceil(Math.ceil((totalCharsTyped / 5) / (props.originalTime / 60)) - (incorrect/5));
+            handleStats(wpm, incorrect);
+            reset();
         }
     }, [timeLeft])    
 

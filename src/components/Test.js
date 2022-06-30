@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Text from './Text'
 import '../style/Test.css'
 import ThemeOptions from './ThemeOptions';
@@ -33,6 +33,7 @@ function Home() {
 
     const handleTheme = (newTheme) => {
         setTheme(newTheme);
+        
     }
 
     const handleStats = (stats) => {
@@ -46,6 +47,7 @@ function Home() {
         let temp = count;
         setGo((go) => go + 1);
         if(go === 0) {
+            setIndex(0);
             let run = setInterval(() => {
                 if(temp-- <= 0) clearInterval(run); 
                 else setCount((count) => count - 1);
@@ -63,11 +65,15 @@ function Home() {
     const stopTimer = () => {
         setShowModal(true);
         setGo(0);
-        setIndex(-1);
         setWord('');
-        setCount(60);
+        setCount(originalTime);
     }
+    const inputRef = useRef();
 
+    const refocus = () => {
+        console.log("Refocusing")
+        inputRef.current.focus();
+    }
     useEffect(() => {
         if(count === 0) {
             console.log("Here")
@@ -75,27 +81,35 @@ function Home() {
         }
     })
 
+    useEffect(() => {
+        refocus();
+    }, [originalTime, theme])
+
     return (
         <div id="contain" className={theme}>
             {showModal && 
                     <Modal 
                         setShowModal={setShowModal} 
                         stats={stats}
+                        refocus={refocus}
                     />
             }
             <div id='center'>
-                <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} />
-                <ThemeOptions updateTheme={handleTheme}/>
-                <h1>{count}</h1>
+                {!go ? <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} /> : <></>}
+                {!go ? <ThemeOptions updateTheme={handleTheme}/> : <></>}
+                <div id='timer'>
+                    <h1>{count}</h1>
+                </div>
                 <div className="txt">
                     <Text   
                         index={index}
                         timeLeft={count}
                         originalTime={originalTime}
                         word={word}
+                        setWord={setWord}
                         setStats={handleStats}
                     />
-                    <Input inputValue={word} startTimer={startTimer} handleTyping={handleTyping} />
+                    <Input key="input" modalShow={showModal} ref={inputRef} inputValue={word} startTimer={startTimer} handleTyping={handleTyping} />
                 </div>
                 
             </div>

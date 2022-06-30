@@ -8,7 +8,12 @@ function Modal(props) {
                     <h2>Incorrect keys: {props.stats.incorrect}</h2>
                 </div>
                 <div className="body">
-                    <button className='btn-primary' onClick={() => props.setShowModal(false)}>Close</button>
+                    <button className='btn-primary' 
+                        onClick={() => {
+                            props.setShowModal(false);
+                            props.refocus(); 
+                            console.log("close")}
+                        }>Close</button>
                 </div>
             </div>
         </div>

@@ -1,17 +1,21 @@
-function Input(props) {
+import {useEffect, forwardRef} from 'react';
+function Input(props, ref) {
     function handleTimer() {
         props.startTimer();
     }
 
     function handleType(e) {
         props.handleTyping(e);
+
     }
-    
+
     return (
         <>
         <input 
+            disabled={props.modalShow}
+            ref={ref}
             key="themeset" 
-            autoFocus 
+            id="themeset"
             className="hidden" 
             onKeyPress={handleTimer} 
             onChange={handleType}
@@ -21,4 +25,4 @@ function Input(props) {
     )
 }
 
-export default Input;
+export default forwardRef(Input);

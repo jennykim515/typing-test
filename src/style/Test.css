@@ -69,6 +69,11 @@ body {
 
 .hidden {
     opacity: 0;
+    border: transparent;
+    border:0;outline:0;
+    background:transparent;
+    color:black;  
+    -webkit-text-fill-color: transparent;
 }
 .button:hover {
     color: var(--incorrect);
@@ -98,4 +103,8 @@ input {
 }
 .leftOver {
     color: var(--leftOver);
+}
+
+#timer {
+    padding: 2% 0%;
 }
