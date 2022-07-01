@@ -1,14 +1,12 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import $ from "jquery";
 function Text(props) {
-    // const text = (`Lorem Ipsum is simply dummy t`.split(""));
-
     const [text, setText] = useState(''.split(""))
     const [totalCharsTyped, setTotal] = useState(0);
     const [incorrect, setIncorrect] = useState(0);
     let index = props.index;
     let timeLeft = props.timeLeft;
-    
+
 
     function handleStats(wpm, incorrect) {
         props.setStats({
@@ -18,14 +16,14 @@ function Text(props) {
     }
 
     function checkIncorrect() {
-            text.map((s, i) => {
-                if(i <= index) {
-                    if(props.word[i] !== s) {
-                        setIncorrect(prev => prev + 1);
-                    }
+        text.map((s, i) => {
+            if (i <= index) {
+                if (props.word[i] !== s) {
+                    setIncorrect(prev => prev + 1);
                 }
-                return false
-            })
+            }
+            return false;
+        })
     }
 
     function getNewText() {
@@ -33,11 +31,9 @@ function Text(props) {
             type: "GET",
             url: "https://icanhazdadjoke.com/",
             headers: { Accept: "application/json" }
-          }).then((data) => {
+        }).then((data) => {
             setText(data.joke.split(""));
         });
-       
-
     }
 
     function reset() {
@@ -46,13 +42,13 @@ function Text(props) {
         setIncorrect(0);
         getNewText();
     }
-    
+
     useEffect(() => {
         getNewText();
     }, []);
 
     useEffect(() => {
-        if(index === text.length - 1) {
+        if (index === text.length - 1) {
             setTotal(prev => {
                 return prev + index;
             });
@@ -64,31 +60,30 @@ function Text(props) {
     }, [index])
 
     useEffect(() => {
-        if(timeLeft === 1) {
+        if (timeLeft === 1) {
             setTotal(prev => {
                 return prev + index;
             });
             checkIncorrect()
         }
-        else if(timeLeft === 0) {
-            let wpm = Math.ceil(Math.ceil((totalCharsTyped / 5) / (props.originalTime / 60)) - (incorrect/5));
+        else if (timeLeft === 0) {
+            let wpm = Math.ceil(Math.ceil((totalCharsTyped / 5) / (props.originalTime / 60)) - (incorrect / 5));
             handleStats(wpm, incorrect);
             reset();
         }
-    }, [timeLeft])    
+    }, [timeLeft])
 
     return (
         <div className="text" >
-            {text.map(function(s, i) {
+            {text.map(function (s, i) {
                 let color;
                 if (i < props.word.length) {
                     color = s === props.word[i] ? 'var(--correct)' : 'var(--incorrect)';
                 }
-                return <span key={i} style={{color: color}}>{s}</span>
+                return <span key={i} style={{ color: color }}>{s}</span>
             })}
         </div>
-
-)
+    )
 }
 
 export default Text;

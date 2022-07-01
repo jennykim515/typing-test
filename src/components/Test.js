@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Text from './Text'
 import '../style/Test.css'
 import ThemeOptions from './ThemeOptions';
@@ -26,7 +26,7 @@ function Home() {
 
     const handleTheme = (newTheme) => {
         setTheme(newTheme);
-        
+
     }
 
     const handleStats = (stats) => {
@@ -57,7 +57,7 @@ function Home() {
             }
         })
     }
-    
+
     const setShowModal = (bool) => {
         setInit(prevConfig => {
             return {
@@ -75,7 +75,7 @@ function Home() {
                 go: init.go + 1
             }
         })
-        if(init.go === 0) {
+        if (init.go === 0) {
             setInit(prevConfig => {
                 return {
                     ...prevConfig,
@@ -83,7 +83,7 @@ function Home() {
                 }
             })
             let run = setInterval(() => {
-                if(temp-- <= 0) clearInterval(run); 
+                if (temp-- <= 0) clearInterval(run);
                 else setCount((count) => count - 1);
             }, 1000)
         }
@@ -108,7 +108,7 @@ function Home() {
     }
 
     useEffect(() => {
-        if(count === 0) {
+        if (count === 0) {
             stopTimer();
         }
     })
@@ -119,30 +119,30 @@ function Home() {
 
     useEffect(() => {
         function handleKeyDown(e) {
-          refocus();
+            refocus();
         }
         document.addEventListener('keydown', handleKeyDown);
         return function cleanup() {
-          document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keydown', handleKeyDown);
         }
-      }, []);
+    }, []);
 
     return (
         <div id="contain" className={theme}>
-            {init.showModal && 
-                    <Modal 
-                        setShowModal={setShowModal} 
-                        stats={stats}
-                    />
+            {init.showModal &&
+                <Modal
+                    setShowModal={setShowModal}
+                    stats={stats}
+                />
             }
             <div id='center'>
                 {!init.go ? <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} /> : <></>}
-                {!init.go ? <ThemeOptions updateTheme={handleTheme}/> : <></>}
+                {!init.go ? <ThemeOptions updateTheme={handleTheme} /> : <></>}
                 <div id='timer'>
                     <h1>{count}</h1>
                 </div>
                 <div className="txt">
-                    <Text   
+                    <Text
                         index={init.index}
                         timeLeft={count}
                         originalTime={originalTime}
@@ -152,7 +152,7 @@ function Home() {
                     />
                     <Input key="input" modalShow={init.showModal} ref={inputRef} inputValue={init.word} startTimer={startTimer} handleTyping={handleTyping} />
                 </div>
-                
+
             </div>
         </div>
     )

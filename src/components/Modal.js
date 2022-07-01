@@ -8,7 +8,7 @@ function Modal(props) {
                     <h2>Incorrect keys: {props.stats.incorrect}</h2>
                 </div>
                 <div className="body">
-                    <button className='btn-primary' 
+                    <button className='btn-primary'
                         onClick={() => {
                             props.setShowModal(false);
                         }
