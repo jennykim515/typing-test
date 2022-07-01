@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Text from './Text'
 import '../style/Test.css'
+import '../style/HelpTip.css'
 import ThemeOptions from './ThemeOptions';
 import TimerOptions from './TimerOptions';
 import Input from './Input';
@@ -129,6 +130,9 @@ function Home() {
 
     return (
         <div id="contain" className={theme}>
+            <div class="help-tip">
+                <p>Start typing anytime and timer will start!</p>
+            </div>
             {init.showModal &&
                 <Modal
                     setShowModal={setShowModal}
