@@ -12,6 +12,7 @@
     --background: #395E66;
     --leftOver: rgb(250, 240, 106);
     --correct: #FFA69E;
+    --incorrect: red;
 }
 
 .light {
@@ -37,19 +38,21 @@
 
 body {
     box-sizing: border-box;
-    padding:0;
+    padding: 0;
     margin: 0;
 }
+
 .navbar {
     position: absolute;
     width: 100%;
     background-color: var(--background);
 }
+
 .nav-link {
     color: var(--leftOver)
 }
 
-#center { 
+#center {
     height: 100vh;
     width: 60%;
     margin: auto;
@@ -71,11 +74,13 @@ body {
 .hidden {
     opacity: 0;
     border: transparent;
-    border:0;outline:0;
-    background:transparent;
-    color:black;  
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: black;
     -webkit-text-fill-color: transparent;
 }
+
 .button:hover {
     color: var(--incorrect);
 }
@@ -87,21 +92,27 @@ input {
     font-size: 1.5em;
     top: 0;
 }
+
 .buttons {
     text-align: right;
 }
+
 .text {
     font-size: 1.5em;
 }
+
 .txt {
     position: relative;
 }
+
 .incorrect {
     color: var(--incorrect);
 }
+
 .correct {
     color: var(--correct);
 }
+
 .leftOver {
     color: var(--leftOver);
 }
