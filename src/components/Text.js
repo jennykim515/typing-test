@@ -24,8 +24,10 @@ function Text(props) {
                         setIncorrect(prev => prev + 1);
                     }
                 }
+                return false
             })
     }
+
     function getNewText() {
         $.ajax({
             type: "GET",
@@ -44,16 +46,14 @@ function Text(props) {
         setIncorrect(0);
         getNewText();
     }
+    
     useEffect(() => {
         getNewText();
     }, []);
 
     useEffect(() => {
-        if(index == text.length - 1) {
-            console.log("******** current index", index)
+        if(index === text.length - 1) {
             setTotal(prev => {
-                console.log("previously", prev)
-                console.log("updating to ", prev+ index)
                 return prev + index;
             });
             checkIncorrect()
@@ -64,22 +64,13 @@ function Text(props) {
     }, [index])
 
     useEffect(() => {
-        console.log("Total chars updated to", totalCharsTyped)
-    }, [totalCharsTyped])
-    useEffect(() => {
         if(timeLeft === 1) {
-            console.log("~~~~~~~~~~~Setting total")
-            console.log("Current index", index)
             setTotal(prev => {
-                console.log("PREVIOUSLY", prev)
-                console.log("to ", prev + index)
                 return prev + index;
             });
             checkIncorrect()
         }
         else if(timeLeft === 0) {
-            console.log("total words typed", totalCharsTyped/5)
-            console.log("original time", props.originalTime/60)
             let wpm = Math.ceil(Math.ceil((totalCharsTyped / 5) / (props.originalTime / 60)) - (incorrect/5));
             handleStats(wpm, incorrect);
             reset();

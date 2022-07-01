@@ -6,22 +6,15 @@ import TimerOptions from './TimerOptions';
 import Input from './Input';
 import Modal from './Modal';
 function Home() {
-    // const [init, setInit] = useState({
-    //     timeLeft: 60,
-    //     originalTime: 60,
-    //     go: 0,
-    //     index: -1,
-    //     userInput: '',
-    //     showModal: false
-    // })
-
     const [count, setCount] = useState(60);
     const [originalTime, setOriginalTime] = useState(60);
     const [theme, setTheme] = useState("light");
-    const [go, setGo] = useState(0);
-    const [index, setIndex] = useState(-1);
-    const [word, setWord] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    const [init, setInit] = useState({
+        go: 0,
+        index: -1,
+        word: '',
+        showModal: false
+    })
     const [stats, setStats] = useState({
         wpm: 0,
         incorrect: 0
@@ -42,12 +35,53 @@ function Home() {
             incorrect: stats.incorrect
         })
     }
+
+    const handleTyping = (e) => {
+        let word = e.target.value;
+        setWord(word);
+        let ind = word.length - 1;
+        // setIndex(() => index);
+        setInit(prevConfig => {
+            return {
+                ...prevConfig,
+                index: ind
+            }
+        })
+    }
+
+    const setWord = (newWord) => {
+        setInit(prevConfig => {
+            return {
+                ...prevConfig,
+                word: newWord
+            }
+        })
+    }
     
+    const setShowModal = (bool) => {
+        setInit(prevConfig => {
+            return {
+                ...prevConfig,
+                showModal: bool
+            }
+        })
+    }
+
     const startTimer = () => {
         let temp = count;
-        setGo((go) => go + 1);
-        if(go === 0) {
-            setIndex(0);
+        setInit(prevConfig => {
+            return {
+                ...prevConfig,
+                go: init.go + 1
+            }
+        })
+        if(init.go === 0) {
+            setInit(prevConfig => {
+                return {
+                    ...prevConfig,
+                    index: 0
+                }
+            })
             let run = setInterval(() => {
                 if(temp-- <= 0) clearInterval(run); 
                 else setCount((count) => count - 1);
@@ -55,28 +89,26 @@ function Home() {
         }
     }
 
-    const handleTyping = (e) => {
-        let word = e.target.value;
-        setWord(word);
-        let index = word.length - 1;
-        setIndex(() => index);
-    }
-
     const stopTimer = () => {
         setShowModal(true);
-        setGo(0);
+        setInit(prevConfig => {
+            return {
+                ...prevConfig,
+                go: 0
+            }
+        })
         setWord('');
         setCount(originalTime);
     }
+
     const inputRef = useRef();
 
     const refocus = () => {
-        console.log("Refocusing")
         inputRef.current.focus();
     }
+
     useEffect(() => {
         if(count === 0) {
-            console.log("Here")
             stopTimer();
         }
     })
@@ -85,31 +117,40 @@ function Home() {
         refocus();
     }, [originalTime, theme])
 
+    useEffect(() => {
+        function handleKeyDown(e) {
+          refocus();
+        }
+        document.addEventListener('keydown', handleKeyDown);
+        return function cleanup() {
+          document.removeEventListener('keydown', handleKeyDown);
+        }
+      }, []);
+
     return (
         <div id="contain" className={theme}>
-            {showModal && 
+            {init.showModal && 
                     <Modal 
                         setShowModal={setShowModal} 
                         stats={stats}
-                        refocus={refocus}
                     />
             }
             <div id='center'>
-                {!go ? <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} /> : <></>}
-                {!go ? <ThemeOptions updateTheme={handleTheme}/> : <></>}
+                {!init.go ? <TimerOptions updateCount={handleCount} setOriginalTime={setOriginalTime} /> : <></>}
+                {!init.go ? <ThemeOptions updateTheme={handleTheme}/> : <></>}
                 <div id='timer'>
                     <h1>{count}</h1>
                 </div>
                 <div className="txt">
                     <Text   
-                        index={index}
+                        index={init.index}
                         timeLeft={count}
                         originalTime={originalTime}
-                        word={word}
+                        word={init.word}
                         setWord={setWord}
                         setStats={handleStats}
                     />
-                    <Input key="input" modalShow={showModal} ref={inputRef} inputValue={word} startTimer={startTimer} handleTyping={handleTyping} />
+                    <Input key="input" modalShow={init.showModal} ref={inputRef} inputValue={init.word} startTimer={startTimer} handleTyping={handleTyping} />
                 </div>
                 
             </div>

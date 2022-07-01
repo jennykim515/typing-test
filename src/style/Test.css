@@ -10,9 +10,10 @@
 
 .ocean {
     --background: #395E66;
-    --leftOver: white;
+    --leftOver: rgb(250, 240, 106);
     --correct: #FFA69E;
 }
+
 .light {
     --background: white;
     --leftOver: black;
@@ -22,9 +23,9 @@
 
 .dark {
     --background: black;
-    --leftOver: white;
+    --leftOver: rgb(171, 222, 83);
     --incorrect: darkred;
-    --correct: blue;
+    --correct: rgb(247, 0, 255);
 }
 
 .bubbly {

@@ -11,8 +11,7 @@ function Modal(props) {
                     <button className='btn-primary' 
                         onClick={() => {
                             props.setShowModal(false);
-                            props.refocus(); 
-                            console.log("close")}
+                        }
                         }>Close</button>
                 </div>
             </div>
