@@ -6,7 +6,6 @@ function Input(props, ref) {
 
     function handleType(e) {
         props.handleTyping(e);
-
     }
 
     return (
