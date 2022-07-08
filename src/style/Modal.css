@@ -1,34 +1,46 @@
 .modalBackground {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(200, 200, 200, 0.45);
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.45);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 
-  }
-  
-  .modalContainer {
-    width: 500px;
-    height: 500px;
-    border-radius: 12px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: flex;
-    flex-direction: column;
-    padding: 25px;
-  }
+}
+
+.modalContainer {
+  width: 500px;
+  height: 500px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  position: relative;
+  border: 1px solid green;
+}
 
 .btn-primary {
-    width: 150px;
-    height: 45px;
-    margin: 10px;
-    border: none;
-    background-color: rgb(42, 50, 65);
-    color: white;
-    border-radius: 8px;
-    font-size: 20px;
-    cursor: pointer;
+  width: 150px;
+  height: 45px;
+  border: none;
+  position: absolute;
+  bottom: 50px;
+  background-color: rgb(42, 50, 65);
+  color: white;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.personInfo {
+  position: absolute;
+  width: 100%;
+}
+
+input {
+  width: 50%;
 }

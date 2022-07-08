@@ -130,13 +130,14 @@ function Home() {
 
     return (
         <div id="contain" className={theme}>
-            <div class="help-tip">
+            <div className="help-tip">
                 <p>Start typing anytime and timer will start!</p>
             </div>
             {init.showModal &&
                 <Modal
                     setShowModal={setShowModal}
                     stats={stats}
+                    originalTime={originalTime}
                 />
             }
             <div id='center'>
