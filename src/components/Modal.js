@@ -2,13 +2,14 @@ import '../style/Modal.css';
 import { useState } from "react"
 
 function Modal(props) {
-    const score = props.stats.wpm - Math.floor(props.stats.incorrect / 5);
+    const minutes = props.originalTime / 60
+    const score = (props.stats.wpm - Math.floor(props.stats.incorrect / 5)) / minutes;
     const [name, setName] = useState('');
     return (
         <div className="modalBackground">
             <div className="modalContainer">
                 <div className="title">
-                    <h1>Gross WPM: {props.stats.wpm}</h1>
+                    <h1>Gross WPM: {props.stats.wpm / minutes}</h1>
                     <h2>Incorrect keys: {props.stats.incorrect}</h2>
                     <h3>Adjusted Score: {score}</h3>
                 </div>
