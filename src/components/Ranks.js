@@ -5,6 +5,15 @@ import '../style/Rank.css'
 function Ranks() {
     const [ranks, setRanks] = useState([])
 
+    async function deleteUser(id) {
+        const response = await fetch(
+            'https://typing-test-apis.herokuapp.com/api/delete',
+            {
+                method: 'DELETE',
+            }
+        );
+    }
+
     useEffect(() => {
         async function getResponse() {
             const response = await fetch(
@@ -33,7 +42,7 @@ function Ranks() {
                 <th>Date</th>
                 {
                     ranks.map((user, index) => {
-                        if (index < 30) {
+                        if (index < 1) {
                             let date = new Date(user.createdAt)
                             return <tr key={user._id}>
                                 <td>{index + 1}</td>
@@ -44,7 +53,7 @@ function Ranks() {
                             </tr>
                         }
                         else {
-                            return;
+                            deleteUser(user.id)
                         }
                     })
                 }
