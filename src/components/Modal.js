@@ -39,8 +39,7 @@ function Modal(props) {
                                     league: props.originalTime
                                 })
                             })
-                            console.log(res.json())
-                            return res.json()
+                            return res.status(200)
                         }
                         }>Close</button>
                 </div>
