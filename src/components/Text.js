@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import $ from "jquery";
 function Text(props) {
-    const [text, setText] = useState(''.split(""))
+    const [text, setText] = useState(''.split("loading"))
     const [totalCharsTyped, setTotal] = useState(0);
     const [incorrect, setIncorrect] = useState(0);
     let index = props.index;
@@ -49,7 +49,9 @@ function Text(props) {
 
     useEffect(() => {
         if (index === text.length - 1) {
+            console.log("INdex", index, "...... text.length", text.length - 1)
             setTotal(prev => {
+                console.log("In line 53")
                 return prev + index;
             });
             checkIncorrect()
@@ -61,13 +63,16 @@ function Text(props) {
 
     useEffect(() => {
         if (timeLeft === 1) {
+            console.log("In useEffect 65")
             setTotal(prev => {
+                console.log("prev+index", prev + index)
                 return prev + index;
             });
             checkIncorrect()
         }
         else if (timeLeft === 0) {
-            let wpm = Math.ceil(Math.ceil((totalCharsTyped / 5) / (props.originalTime / 60)) - (incorrect / 5));
+            let wpm = Math.ceil(totalCharsTyped / 5);
+            wpm = wpm < 0 ? 0 : wpm;
             handleStats(wpm, incorrect);
             reset();
         }

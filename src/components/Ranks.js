@@ -1,23 +1,8 @@
-import { data } from "jquery";
 import { useEffect, useState } from "react"
 import '../style/Rank.css'
 
 function Ranks() {
     const [ranks, setRanks] = useState([])
-
-    async function deleteUser(id) {
-        const response = await fetch(
-            `https://typing-test-apis.herokuapp.com/api/delete/${id}`,
-            {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-
-            }
-        );
-    }
 
     useEffect(() => {
         async function getResponse() {
@@ -53,24 +38,22 @@ function Ranks() {
                         <th>Date</th>
                     </tr>
                 </thead>
-
-                {
-                    ranks.map((user, index) => {
-                        if (index < 1) {
-                            let date = new Date(user.createdAt)
-                            return <tr key={user._id}>
-                                <td>{index + 1}</td>
-                                <td>{user.name}</td>
-                                <td>{user.score}</td>
-                                <td>{user.league}</td>
-                                <td>{(date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()}</td>
-                            </tr>
-                        }
-                        else {
-                            deleteUser(user.id)
-                        }
-                    })
-                }
+                <tbody>
+                    {
+                        ranks.map((user, index) => {
+                            if (index < 30) {
+                                let date = new Date(user.createdAt)
+                                return <tr key={user._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.score}</td>
+                                    <td>{user.league}</td>
+                                    <td>{(date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()}</td>
+                                </tr>
+                            }
+                        })
+                    }
+                </tbody>
             </table>
         </div>
     )
