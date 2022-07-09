@@ -14,19 +14,21 @@ function Ranks() {
                 }
             );
             const data = await response.json(); // Extracting data as a JSON Object from the response
-
+            data.sort(function (a, b) {
+                return b.score - a.score;
+            });
             setRanks(data)
-            console.log(data)
         }
         getResponse()
     }, [])
 
     return (
         <div className="container">
-            <h1>Leaderboard</h1>
+            <h1>Leaderboard - Top 30</h1>
             <table>
+                <th>Rank</th>
                 <th>Name</th>
-                <th>Score</th>
+                <th>WPM</th>
                 <th>League</th>
                 <th>Date</th>
                 {
@@ -34,11 +36,15 @@ function Ranks() {
                         if (index < 30) {
                             let date = new Date(user.createdAt)
                             return <tr key={user._id}>
+                                <td>{index + 1}</td>
                                 <td>{user.name}</td>
                                 <td>{user.score}</td>
                                 <td>{user.league}</td>
                                 <td>{(date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()}</td>
                             </tr>
+                        }
+                        else {
+                            return;
                         }
                     })
                 }
