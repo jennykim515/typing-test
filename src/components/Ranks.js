@@ -7,9 +7,14 @@ function Ranks() {
 
     async function deleteUser(id) {
         const response = await fetch(
-            'https://typing-test-apis.herokuapp.com/api/delete',
+            `https://typing-test-apis.herokuapp.com/api/delete/${id}`,
             {
                 method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
             }
         );
     }
@@ -20,6 +25,10 @@ function Ranks() {
                 'https://typing-test-apis.herokuapp.com/api/',
                 {
                     method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
                 }
             );
             const data = await response.json(); // Extracting data as a JSON Object from the response
@@ -35,11 +44,16 @@ function Ranks() {
         <div className="container">
             <h1>Leaderboard - Top 30</h1>
             <table>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>WPM</th>
-                <th>League</th>
-                <th>Date</th>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>WPM</th>
+                        <th>League</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
                 {
                     ranks.map((user, index) => {
                         if (index < 1) {
