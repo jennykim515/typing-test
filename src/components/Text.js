@@ -65,7 +65,6 @@ function Text(props) {
         if (timeLeft === 1) {
             console.log("In useEffect 65")
             setTotal(prev => {
-                console.log("prev+index", prev + index)
                 return prev + index;
             });
             checkIncorrect()
